@@ -1,42 +1,68 @@
 package DTO;
 
+import java.sql.Statement;
+import java.sql.ResultSet;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 
 public class Conexion {
-    public String driver = "com.mysql.jdbc.Driver";
+    private String driver = "com.mysql.jdbc.Driver";
     // Nombre de la base de datos
-    public String database = "ProyectoVet";
+    private String database = "ProyectoVet";
 
     // Host
-    public String hostname = "localhost";
+    private String hostname = "localhost";
 
     // Puerto
-    public String port = "3306";
+    private String port = "3306";
 
     // Ruta de nuestra base de datos (desactivamos el uso de SSL con "?useSSL=false")
-    public String url = "jdbc:mysql://" + hostname + ":" + port + "/" + database + "?useSSL=false";
+    private String url = "jdbc:mysql://" + hostname + ":" + port + "/" + database + "?useSSL=false";
 
     // Nombre de usuario
-    public String username = "root";
+    private String username = "root";
 
     // Clave de usuario
-    public String password = "";
+    private String password = "";
     
-    public Connection conectarMySQL() {
-        Connection conn = null;
-
+    private Connection con;
+    
+    public Conexion() {
+        
         try {
             Class.forName(driver);
-            conn = DriverManager.getConnection(url, username, password);
-            System.out.println("Conectado");
+            con = DriverManager.getConnection(url, username, password);
+            //System.out.println("Conectado");
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
-
-        return conn;
+        
+    }
+    
+    public ResultSet ejecutaQuery(String sql){
+        //Connection cn = new Conexion();
+        Statement st;
+        ResultSet rs = null;
+        
+        try {
+            st = this.con.createStatement();
+            rs = st.executeQuery(sql);
+            
+            System.out.println(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+    
+    public void CloseConexion(){
+        try {
+            this.con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     
 }

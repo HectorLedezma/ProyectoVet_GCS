@@ -20,6 +20,38 @@ public class Usuario {
         this.tipo = tipo;
         this.estado = estado;
     }
+
+    public String getRut() {
+        return rut;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public String getFono() {
+        return fono;
+    }
+
+    public int getTipo() {
+        return tipo;
+    }
+
+    public int getEstado() {
+        return estado;
+    }
     
     
     
