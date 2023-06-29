@@ -124,7 +124,7 @@ public class ProyectoVet {
         PV.UserManage();
         //Varios X = new Varios();
         //System.out.println(X.hashSHA256("Contraseña"));
-        
+        //Conexion con = new Conexion();
     }
     
     

@@ -1,13 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DTO;
 
-/**
- *
- * @author hectorledez el gamer
- */
-public class Veterinario {
+import java.util.Date;
+
+public class Veterinario extends Usuario{
+    private String titulo;
+    private Date Inicio;
+
+    public Veterinario(String titulo, Date Inicio, String rut, String nombre, String apellido, String mail, String pass, String fono, int tipo, int estado) {
+        super(rut, nombre, apellido, mail, pass, fono, tipo, estado);
+        this.titulo = titulo;
+        this.Inicio = Inicio;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public Date getInicio() {
+        return Inicio;
+    }
+    
     
 }
