@@ -10,6 +10,14 @@ import java.sql.Connection;
 import java.util.Scanner;
 public class ProyectoVet {
 
+    
+    public void Login(){
+        System.out.println("");
+        System.out.println("");
+        System.out.println("");
+        
+    }
+    
     public void UserManage(){
         System.out.println("=================================================");
         System.out.println("================Gestion de Ususario==============");
