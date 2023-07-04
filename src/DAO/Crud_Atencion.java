@@ -26,5 +26,7 @@ public class Crud_Atencion {
                         + "'"+at.getDiagnostico()+"',"//7
                         + "'"+at.getReceta()+"'"//8
                     + ");";
+        nu.ejecutaVoidQuery(SQL);
+        nu.CloseConexion();
     }
 }
