@@ -7,14 +7,27 @@ import DTO.Conexion;
 import DTO.Usuario;
 import DTO.Varios;
 import java.sql.Connection;
+import java.util.Arrays;
 import java.util.Scanner;
 public class ProyectoVet {
 
     
     public void Login(){
-        System.out.println("");
-        System.out.println("");
-        System.out.println("");
+        Scanner Input = new Scanner(System.in);
+        String rut = "";
+        String pas = "";
+        String [] user;
+        CrudUser check = new CrudUser();
+        System.out.println("==================================================");
+        System.out.println("===========Veterinaria de Dr. Eutanasia===========");
+        System.out.println("==================================================\n");
+        System.out.println("Ingrese su rut:");
+        rut = Input.nextLine();
+        //System.out.println("Ingrese su contraseña:");
+        //pas = Input.nextLine();
+        user = check.ReadUno(rut);
+        String contra = user[4];
+        System.out.println(contra);
         
     }
     
@@ -129,7 +142,8 @@ public class ProyectoVet {
     
     public static void main(String[] args) {
         ProyectoVet PV = new ProyectoVet();
-        PV.UserManage();
+        PV.Login();
+        //PV.UserManage();
         //Varios X = new Varios();
         //System.out.println(X.hashSHA256("Contraseña"));
         //Conexion con = new Conexion();
