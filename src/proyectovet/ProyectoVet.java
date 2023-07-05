@@ -14,6 +14,7 @@ public class ProyectoVet {
     
     public void Login(){
         Scanner Input = new Scanner(System.in);
+        Varios X = new Varios();
         String rut = "";
         String pas = "";
         String [] user;
@@ -21,23 +22,55 @@ public class ProyectoVet {
         System.out.println("==================================================");
         System.out.println("===========Veterinaria de Dr. Eutanasia===========");
         System.out.println("==================================================\n");
-        System.out.println("Ingrese su rut:");
-        rut = Input.nextLine();
-        //System.out.println("Ingrese su contraseña:");
-        //pas = Input.nextLine();
+        while(true){
+            System.out.println("Ingrese su rut:");
+            rut = Input.nextLine();
+            if(X.ValidaRUT(rut)){
+                break;
+            }else{
+                System.out.println("RUT no valido");
+            }
+        }
+        System.out.println("Ingrese su contraseña:");
+        pas = Input.nextLine();
+        pas = X.hashSHA256(pas);
         user = check.ReadUno(rut);
         String contra = user[4];
-        System.out.println(contra);
+        if(pas.equals(contra)){
+            int tipo = Integer.parseInt(user[6]);
+            switch(tipo){
+                case 1 ->{
+                    MenuAsistente();
+                }
+                case 2 ->{
+                    MenuVeterinario();
+                }
+                case 3 ->{
+                    
+                }
+                case 4 ->{
+                    MenuAdministrador();
+                }
+            }
+        }
         
     }
     
-    public void UserManage(){
+    public void MenuAsistente(){
+        
+    }
+    
+    public void MenuVeterinario(){
+        
+    }
+    
+    public void MenuAdministrador(){
         System.out.println("=================================================");
         System.out.println("================Gestion de Ususario==============");
         System.out.println("=================================================");
-        System.out.println("1) Ingresar");
-        System.out.println("2) Ver uno");
-        System.out.println("3) Ver Todo");
+        System.out.println("1) Ingresar usuario");
+        System.out.println("2) Ver un usuario");
+        System.out.println("3) Ver todos los usuarios");
         
         Scanner Input = new Scanner(System.in);
         System.out.print("Ingrese una opcion: ");
