@@ -11,7 +11,14 @@ public class CrudMascota {
     public void Create(Mascota masc){
         Conexion nu = new Conexion();
         nu.ejecutaVoidQuery(
-                "INSERT INTO `mascota`(`NroChip`, `Nombre`, `Sexo`, `Especie`, `Raza`, `RutDueño`, `Estado`) "
+                "INSERT INTO `mascota`("
+                        + "`NroChip`, "
+                        + "`Nombre`, "
+                        + "`Sexo`, "
+                        + "`Especie`, "
+                        + "`Raza`, "
+                        + "`RutDueño`, "
+                        + "`Estado`) "
                 + "VALUES ('"+masc.getNroChip()+"',"
                         + "'"+masc.getNombre()+"',"
                         + "'"+masc.getSexo()+"',"
