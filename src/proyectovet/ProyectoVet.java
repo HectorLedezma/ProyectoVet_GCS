@@ -1,14 +1,17 @@
 package proyectovet;
 
 import DAO.CrudAsistente;
+import DAO.CrudMascota;
 import DAO.CrudPetOwner;
 import DAO.CrudUser;
+import DAO.CrudVeterinario;
 import DTO.Asistente;
 import DTO.Conexion;
 import DTO.Mascota;
 import DTO.PetOwner;
 import DTO.Usuario;
 import DTO.Varios;
+import DTO.Veterinario;
 import java.sql.Connection;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -41,14 +44,17 @@ public class ProyectoVet {
         String contra = user[4];
         if(pas.equals(contra)){
             int tipo = Integer.parseInt(user[6]);
+            String [] usData;
             switch(tipo){
-                case 1 ->{
+                case 1 ->{//menu Asistente
                     CrudAsistente as = new CrudAsistente();
-                    String [] asData = as.ReadUno(rut);
-                    MenuAsistente(new Asistente(Integer.parseInt(asData[8]),asData[9],asData[0],asData[1],asData[2],asData[3],asData[4],asData[5],Integer.parseInt(asData[6]),Integer.parseInt(asData[7])));
+                    usData = as.ReadUno(rut);
+                    MenuAsistente(new Asistente(Integer.parseInt(usData[8]),usData[9],usData[0],usData[1],usData[2],usData[3],usData[4],usData[5],Integer.parseInt(usData[6]),Integer.parseInt(usData[7])));
                 }
-                case 2 ->{
-                    MenuVeterinario();
+                case 2 ->{//menu Veterinario
+                    CrudVeterinario vt = new CrudVeterinario();
+                    //usData = vt.ReadUno(rut);
+                    //MenuVeterinario();
                 }
                 case 3 ->{
                     
@@ -57,12 +63,16 @@ public class ProyectoVet {
                     MenuAdministrador();
                 }
             }
+        }else{
+            System.out.println("Contraseña incorrecta");
         }
         
     }
     
     public void MenuAsistente(Asistente us){
         Scanner Input = new Scanner(System.in);
+        CrudMascota cpt = new CrudMascota();
+        CrudPetOwner cpo = new CrudPetOwner();
         System.out.println("Bienvenido "+us.getNombre());
         System.out.println("Por favor ingrse una opcion: ");
         int op2;
@@ -80,6 +90,7 @@ public class ProyectoVet {
         }
         switch(op2){
             case 1->{
+                Varios X = new Varios();
                 boolean op4 = false;
                 while(true){
                     System.out.println("Nuevo dueño?");
@@ -95,11 +106,11 @@ public class ProyectoVet {
                     }
                 }
                 PetOwner PetO;
-                CrudPetOwner cpo = new CrudPetOwner();
+                Mascota pet;
+                
                 String [] DatoDue;
-                Varios X = new Varios();
                 if(op4){//dueño nuevo
-                    PetO = IngresaDue();
+                    PetO = us.IngresaDue();
                     cpo.Create(PetO);
                     DatoDue = cpo.ReadUno(PetO.getRut());
                 }else{//dueño antiguo
@@ -111,19 +122,17 @@ public class ProyectoVet {
                         drut = Input.nextLine();
                     }
                     DatoDue = cpo.ReadUno(drut);
-                    Mascota pet;
                 }
-                
-                
-                System.out.println("Ingese datos del dueño de la mascota.");
-                
+                System.out.println("Ingese los datos de la mascota.");
+                pet = us.IngresaPet(DatoDue[0]);
+                cpt.Create(pet);
             }case 2->{
                 
             }
         }
     }
     
-    public void MenuVeterinario(){
+    public void MenuVeterinario(Veterinario us){
         System.out.println("Menu de ");
     }
     
@@ -186,118 +195,92 @@ public class ProyectoVet {
                 System.out.println("valor ingresado no valido");
             }
         }
-        System.out.println("1) Asistente");
-        System.out.println("2) Veterinario");
-        System.out.println("3) Practicante");
-        System.out.println("4) Administrador");
-        System.out.print("Ingrese el tipo de usuario: ");
-        tipo = Input.nextInt();
         while(true){
-            switch(tipo){
-                case 1->{
-                    int tJor;
-                    String HrIni = "";
-                    while(true){
-                        System.out.println("1) Full-time");
-                        System.out.println("2) Part-time");
-                        System.out.print("Ingrese el tipo de jornada: ");
-                        tJor = Input.nextInt();
-                        if(tJor > 0 && tJor <= 2){
-                            if (tJor == 2){
-                                System.out.println("Ingrese el horario de entrada: ");
-                                int hr;
-                                while(true){
-                                    System.out.print("Hora: ");
-                                    hr = Input.nextInt();
-                                    if(hr <= 18 && hr >= 9){
-                                        break;
-                                    }else{
-                                        System.out.println("Hora incorrecta");
-                                        System.out.println("La hora de llegada debe ser de entre 9 hrs. a 18 hrs.");
-                                    }
-                                }
-                                int min;
-                                while(true){
-                                    System.out.print("Minutos: ");
-                                    min = Input.nextInt();
-                                    if(min < 60 && min >= 0){
-                                        break;
-                                    }else{
-                                        System.out.println("Minuto no valido");
-                                        System.out.println("Los minutos deben estar entre 0 a 59");
-                                    }
-                                }
-                                HrIni = hr+":"+min+":"+"00";
-                            }else{
-                                HrIni = "9:00:00";
-                            }
-                            break;
-                        }else{
-                            System.out.println("valor ingresado no valido");
-                        }
-                    }
-                    Asistente as = new Asistente(tJor,HrIni,rut,nombre,apellido,correo,X.hashSHA256(pass),telefono,tipo,estado);
-                    CrudAsistente nas = new CrudAsistente();
-                    nas.create(as);
-                    break;
-                }
-                case 2->{
-                    break;
-                }
-                case 3->{
-                    break;
-                }
-                case 4->{
-                    Usuario user = new Usuario(rut,nombre,apellido,correo,X.hashSHA256(pass),telefono,tipo,estado);
-                    CrudUser nus = new CrudUser();
-                    nus.Create(user);
-                    break;
-                }
+            System.out.println("1) Asistente");
+            System.out.println("2) Veterinario");
+            System.out.println("3) Practicante");
+            System.out.println("4) Administrador");
+            System.out.print("Ingrese el tipo de usuario: ");
+            tipo = Input.nextInt();
+            if(tipo<=4 && tipo >=1){
+                break;
+            }else{
+                System.out.println("Valor no Valido");
             }
         }
         
-    }
-    
-    //menu para ingresar dueños
-    public PetOwner IngresaDue(){
-        Scanner Input = new Scanner(System.in);
-        Varios x = new Varios();
-        System.out.print("Nombre del dueño: ");
-        String nombre = Input.nextLine();
-        System.out.print("Apellido del dueño: ");
-        String apellido = Input.nextLine();
-        System.out.print("RUT del dueño: ");
-        String rut = Input.nextLine();
-        while(!x.ValidaRUT(rut)){
-            System.out.println("RUT no valido");
-            System.out.print("RUT del dueño: ");
-            rut = Input.nextLine();
+        switch(tipo){
+            case 1->{
+                int tJor;
+                String HrIni = "";
+                while(true){
+                    System.out.println("1) Full-time");
+                    System.out.println("2) Part-time");
+                    System.out.print("Ingrese el tipo de jornada: ");
+                    tJor = Input.nextInt();
+                    if(tJor > 0 && tJor <= 2){
+                        if (tJor == 2){
+                            System.out.println("Ingrese el horario de entrada: ");
+                            int hr;
+                            while(true){
+                                System.out.print("Hora: ");
+                                hr = Input.nextInt();
+                                if(hr <= 18 && hr >= 9){
+                                    break;
+                                }else{
+                                    System.out.println("Hora incorrecta");
+                                    System.out.println("La hora de llegada debe ser de entre 9 hrs. a 18 hrs.");
+                                }
+                            }
+                            int min;
+                            while(true){
+                                System.out.print("Minutos: ");
+                                min = Input.nextInt();
+                                if(min < 60 && min >= 0){
+                                    break;
+                                }else{
+                                    System.out.println("Minuto no valido");
+                                    System.out.println("Los minutos deben estar entre 0 a 59");
+                                }
+                            }
+                            HrIni = hr+":"+min+":"+"00";
+                        }else{
+                            HrIni = "9:00:00";
+                        }
+                        break;
+                    }else{
+                        System.out.println("valor ingresado no valido");
+                    }
+                }
+                Asistente as = new Asistente(tJor,HrIni,rut,nombre,apellido,correo,X.hashSHA256(pass),telefono,tipo,estado);
+                CrudAsistente nas = new CrudAsistente();
+                nas.create(as);
+            }
+            case 2->{
+            }
+            case 3->{
+            }
+            case 4->{
+                Usuario user = new Usuario(rut,nombre,apellido,correo,X.hashSHA256(pass),telefono,tipo,estado);
+                CrudUser nus = new CrudUser();
+                nus.Create(user);
+            }
         }
-        System.out.print("Telefono 1 del Dueño: ");
-        String fono1 = Input.nextLine();
-        System.out.print("Telefono 2 del Dueño: ");
-        String fono2 = Input.nextLine();
-        
-        //String rut = x.ValidaRUT(Input.nextLine());
-        return new PetOwner(rut,nombre,apellido,fono1,fono2);
-    }
-    
-    //menu para ingresar mascotas
-    public void IngresaPet(){
-        
     }
     
     public static void main(String[] args) {
         //ProyectoVet PV = new ProyectoVet();
         //PV.Login();
         //PV.UserManage();
-        //Varios X = new Varios();
+        Varios X = new Varios();
         //System.out.println(X.hashSHA256("Contraseña"));
         //Conexion con = new Conexion();
         Scanner Input = new Scanner(System.in);
         String rut = Input.nextLine();
-        CrudAsistente cu = new CrudAsistente();
-        System.out.println(Arrays.toString(cu.ReadUno(rut)));
+        System.out.println(X.ValidaRUT(rut));
+        //CrudAsistente cu = new CrudAsistente();
+        //System.out.println(Arrays.toString(cu.ReadUno(rut)));
+        //PV.MenuAdministrador();
     }
     
     

@@ -20,7 +20,7 @@ public class Conexion {
         
         try {
             con = DriverManager.getConnection(url, username, password);
-            System.out.println("Conectado");
+            //System.out.println("Conectado");
         } catch (SQLException e) {
         }
         

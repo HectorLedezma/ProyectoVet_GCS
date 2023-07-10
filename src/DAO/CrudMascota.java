@@ -11,38 +11,33 @@ public class CrudMascota {
     public void Create(Mascota masc){
         Conexion nu = new Conexion();
         nu.ejecutaVoidQuery(
-                "INSERT INTO `mascota`("
-                        + "`NroChip`, "
-                        + "`Nombre`, "
-                        + "`Sexo`, "
-                        + "`Especie`, "
-                        + "`Raza`, "
-                        + "`RutDueño`, "
-                        + "`Estado`) "
+                  "INSERT INTO `mascota`(`NroChip`, `Nombre`, `Sexo`, `Especie`, `Raza`, `RutDueño`,`RutAsistente`, `Estado`)"
                 + "VALUES ('"+masc.getNroChip()+"',"
                         + "'"+masc.getNombre()+"',"
-                        + "'"+masc.getSexo()+"',"
+                        + ""+masc.getSexo()+","
                         + "'"+masc.getEspecie()+"',"
                         + "'"+masc.getRaza()+"',"
                         + "'"+masc.getRutDueño()+"',"
-                        + "'"+masc.getEstado()+"')"
+                        + "'"+masc.getRutAs()+"')"
         );
         nu.CloseConexion();
     }
     
     public String [] ReadUno(String NroChip){
         String sql = "SELECT * FROM `mascota` WHERE mascota.NroChip = '"+NroChip+"'";
-        String [] Datos = new String[7];
+        String [] Datos = new String[9];
         try {
             Conexion nu = new Conexion();
             
-            Datos[0] = nu.ejecutaQuery(sql).getString("NroChip");
-            Datos[1] = nu.ejecutaQuery(sql).getString("Nombre");
-            Datos[2] = nu.ejecutaQuery(sql).getString("Sexo");
-            Datos[3] = nu.ejecutaQuery(sql).getString("Especie");
-            Datos[4] = nu.ejecutaQuery(sql).getString("Raza");
-            Datos[5] = nu.ejecutaQuery(sql).getString("RutDueño");
-            Datos[6] = nu.ejecutaQuery(sql).getString("Estado");
+            Datos[0] = nu.ejecutaQuery(sql).getString("ID_Ficha");
+            Datos[1] = nu.ejecutaQuery(sql).getString("NroChip");
+            Datos[2] = nu.ejecutaQuery(sql).getString("Nombre");
+            Datos[3] = nu.ejecutaQuery(sql).getString("Sexo");
+            Datos[4] = nu.ejecutaQuery(sql).getString("Especie");
+            Datos[5] = nu.ejecutaQuery(sql).getString("Raza");
+            Datos[6] = nu.ejecutaQuery(sql).getString("RutDueño");
+            Datos[7] = nu.ejecutaQuery(sql).getString("RutAsistente");
+            Datos[8] = nu.ejecutaQuery(sql).getString("Estado");
             
             nu.CloseConexion();
         } catch (SQLException ex) {

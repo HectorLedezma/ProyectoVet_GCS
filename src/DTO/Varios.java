@@ -96,24 +96,19 @@ public class Varios {
     }
     
     public boolean ValidaRUT(String rut){
+        //System.out.println("Rut de entrada: "+rut);
         boolean ok = false;
-        String sinSim = "";
-        for(int i = 0; i< rut.length();i++){
-            //System.out.println(rut.charAt(i));
-            if((rut.charAt(i) != ".".charAt(0)) && (rut.charAt(i) != "-".charAt(0))){
-               sinSim = sinSim + rut.charAt(i); 
-            }
-        }
-        
+        String sinSim = rut.replaceAll("[^0-9kK]", "");
+        //System.out.println("Rut de sin simbolos: "+sinSim);
         String sinDV = sinSim.substring(0, sinSim.length() - 1);
-        //System.out.println(sinSim);
-        
+        //System.out.println("Rut de sin DV: "+sinDV);
         String TUR = "";
         for(int i = sinDV.length()-1; i>=0; i--){
             //System.out.println(sinSim.length()-1);
             //System.out.println(i);
             TUR = TUR + sinDV.charAt(i);
         }
+        //System.out.println("Rut invertido: "+TUR);
         int multi = 2;
         int suma = 0;
         for(int i = 0; i<TUR.length();i++){

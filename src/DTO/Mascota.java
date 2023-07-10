@@ -1,25 +1,25 @@
 package DTO;
 
 public class Mascota {
-    protected int NroChip;
+    protected String NroChip;
     protected String Nombre;
-    protected String Sexo;
+    protected int Sexo;
     protected String Especie;
     protected String Raza;
     protected String RutDueño;
-    protected int Estado;
+    protected String RutAs;
     
-    public Mascota(int NroChip, String Nombre, String Sexo, String Especie, String Raza, String RutDueño, int Estado){
+    public Mascota(String NroChip, String Nombre, int Sexo, String Especie, String Raza, String RutDueño,String RutAs){
         this.NroChip=NroChip;
         this.Nombre=Nombre;
         this.Sexo=Sexo;
         this.Especie=Especie;
         this.Raza=Raza;
         this.RutDueño=RutDueño;
-        this.Estado= Estado;
+        this.RutAs=RutAs;
     }
     
-    public int getNroChip(){
+    public String getNroChip(){
         return NroChip;
     }
     
@@ -27,7 +27,7 @@ public class Mascota {
         return Nombre;
     }
     
-    public String getSexo(){
+    public int getSexo(){
         return Sexo;
     }
     
@@ -42,8 +42,10 @@ public class Mascota {
     public String getRutDueño(){
         return RutDueño;
     }
-    
-    public int getEstado(){
-        return Estado;
+
+    public String getRutAs() {
+        return RutAs;
     }
+    
+    
 }
