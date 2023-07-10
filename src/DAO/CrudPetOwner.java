@@ -41,7 +41,7 @@ public class CrudPetOwner {
             Datos[4] = nu.ejecutaQuery(sql).getString("Fono2");
             nu.CloseConexion();
         } catch (SQLException ex) {
-            Logger.getLogger(CrudUser.class.getName()).log(Level.SEVERE, null, ex);
+            //System.out.println(ex.getErrorCode());
         }
         
         return Datos;

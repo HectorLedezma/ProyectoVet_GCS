@@ -1,5 +1,6 @@
 package DTO;
 
+import DAO.CrudPetOwner;
 import java.util.Scanner;
 
 public class Asistente extends Usuario{
@@ -14,26 +15,35 @@ public class Asistente extends Usuario{
 
     //menu para ingresar dueños
     public PetOwner IngresaDue(){
+        PetOwner pt;
         Scanner Input = new Scanner(System.in);
         Varios x = new Varios();
-        System.out.print("Nombre del dueño: ");
-        String nombre = Input.nextLine();
-        System.out.print("Apellido del dueño: ");
-        String apellido = Input.nextLine();
         System.out.print("RUT del dueño: ");
-        String rut = Input.nextLine();
-        while(!x.ValidaRUT(rut)){
+        String rutd = Input.nextLine();
+        Input.nextLine();
+        while(!x.ValidaRUT(rutd)){
             System.out.println("RUT no valido");
             System.out.print("RUT del dueño: ");
-            rut = Input.nextLine();
+            rutd = Input.nextLine();
         }
-        System.out.print("Telefono 1 del Dueño: ");
-        String fono1 = Input.nextLine();
-        System.out.print("Telefono 2 del Dueño: ");
-        String fono2 = Input.nextLine();
+        CrudPetOwner cd = new CrudPetOwner();
+        if((cd).ReadUno(rutd)[0] == null){
+            System.out.print("Nombre del dueño: ");
+            String nombre = Input.nextLine();
+            System.out.print("Apellido del dueño: ");
+            String apellido = Input.nextLine();
+            System.out.print("Telefono 1 del Dueño: ");
+            String fono1 = Input.nextLine();
+            System.out.print("Telefono 2 del Dueño: ");
+            String fono2 = Input.nextLine();
+            pt = new PetOwner(rutd,nombre,apellido,fono1,fono2);
+        }else{
+            System.out.println("Ese dueño ya esta registrado en el sistema");
+            pt = null;
+        }
         
         //String rut = x.ValidaRUT(Input.nextLine());
-        return new PetOwner(rut,nombre,apellido,fono1,fono2);
+        return pt;
     }
     
     //menu para ingresar mascotas
@@ -43,10 +53,11 @@ public class Asistente extends Usuario{
         String nombre = ent.nextLine();
         int sexo;
         while(true){
-            System.out.print("Sexo de la mascota: ");
+            System.out.println("Sexo de la mascota: ");
             System.out.println("1) Macho");
             System.out.println("2) Hembra");
             sexo = ent.nextInt();
+            ent.nextLine();
             if(sexo==2 || sexo==1){
                 break;
             }else{

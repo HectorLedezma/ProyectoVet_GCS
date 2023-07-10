@@ -97,7 +97,7 @@ public class Varios {
     
     public boolean ValidaRUT(String rut){
         //System.out.println("Rut de entrada: "+rut);
-        boolean ok = false;
+        boolean ok;
         String sinSim = rut.replaceAll("[^0-9kK]", "");
         //System.out.println("Rut de sin simbolos: "+sinSim);
         String sinDV = sinSim.substring(0, sinSim.length() - 1);
@@ -120,13 +120,16 @@ public class Varios {
         }
         int dv = 11-(suma%11);
         String dvu = ""+sinSim.charAt(sinSim.length()-1);
+        if(dvu.equals("k")){
+            dvu = "K";
+        }
         //System.out.println(TUR);
         String dvr = "";
         if(dv==11){
             dvr = "0";
         }
         if(dv==10){
-            dvr = "k";
+            dvr = "K";
         }
         
         ok = dvr.equals(dvu);

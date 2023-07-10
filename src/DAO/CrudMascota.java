@@ -23,8 +23,8 @@ public class CrudMascota {
         nu.CloseConexion();
     }
     
-    public String [] ReadUno(String NroChip){
-        String sql = "SELECT * FROM `mascota` WHERE mascota.NroChip = '"+NroChip+"'";
+    public String [] ReadUno(String Nro){
+        String sql = "SELECT * FROM `mascota` WHERE mascota.ID_Ficha = '"+Nro+"'";
         String [] Datos = new String[9];
         try {
             Conexion nu = new Conexion();

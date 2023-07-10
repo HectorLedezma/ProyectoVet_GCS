@@ -4,16 +4,16 @@ import DAO.CrudAsistente;
 import DAO.CrudMascota;
 import DAO.CrudPetOwner;
 import DAO.CrudUser;
-import DAO.CrudVeterinario;
+//import DAO.CrudVeterinario;
 import DTO.Asistente;
-import DTO.Conexion;
+//import DTO.Conexion;
 import DTO.Mascota;
 import DTO.PetOwner;
 import DTO.Usuario;
 import DTO.Varios;
 import DTO.Veterinario;
-import java.sql.Connection;
-import java.util.Arrays;
+//import java.sql.Connection;
+//import java.util.Arrays;
 import java.util.Scanner;
 public class ProyectoVet {
 
@@ -22,7 +22,7 @@ public class ProyectoVet {
         Scanner Input = new Scanner(System.in);
         Varios X = new Varios();
         String rut = "";
-        String pas = "";
+        String pas;
         String [] user;
         CrudUser check = new CrudUser();
         System.out.println("==================================================");
@@ -52,7 +52,7 @@ public class ProyectoVet {
                     MenuAsistente(new Asistente(Integer.parseInt(usData[8]),usData[9],usData[0],usData[1],usData[2],usData[3],usData[4],usData[5],Integer.parseInt(usData[6]),Integer.parseInt(usData[7])));
                 }
                 case 2 ->{//menu Veterinario
-                    CrudVeterinario vt = new CrudVeterinario();
+                    //CrudVeterinario vt = new CrudVeterinario();
                     //usData = vt.ReadUno(rut);
                     //MenuVeterinario();
                 }
@@ -105,21 +105,28 @@ public class ProyectoVet {
                         System.out.println("Opcion no valida");
                     }
                 }
-                PetOwner PetO;
+                
                 Mascota pet;
                 
-                String [] DatoDue;
+                String [] DatoDue = new String[5];
                 if(op4){//dueño nuevo
-                    PetO = us.IngresaDue();
-                    cpo.Create(PetO);
-                    DatoDue = cpo.ReadUno(PetO.getRut());
-                }else{//dueño antiguo
+                    PetOwner PetO = us.IngresaDue();
+                    if(PetO != null){
+                        cpo.Create(PetO);
+                        DatoDue = cpo.ReadUno(PetO.getRut());
+                    }else{
+                        op4 = false;
+                    }
+                }
+                if(!op4){//dueño antiguo
                     System.out.print("Ingrese el Rut del dueño: ");
                     String drut = Input.nextLine();
+                    //Input.nextLine();
                     while(!X.ValidaRUT(drut)){
                         System.out.println("Rut no valido");
                         System.out.print("Ingrese el Rut del dueño: ");
                         drut = Input.nextLine();
+                        
                     }
                     DatoDue = cpo.ReadUno(drut);
                 }
@@ -269,15 +276,19 @@ public class ProyectoVet {
     }
     
     public static void main(String[] args) {
-        //ProyectoVet PV = new ProyectoVet();
-        //PV.Login();
+        ProyectoVet PV = new ProyectoVet();
+        PV.Login();
         //PV.UserManage();
-        Varios X = new Varios();
+        //Varios X = new Varios();
         //System.out.println(X.hashSHA256("Contraseña"));
         //Conexion con = new Conexion();
-        Scanner Input = new Scanner(System.in);
-        String rut = Input.nextLine();
-        System.out.println(X.ValidaRUT(rut));
+        //Scanner Input = new Scanner(System.in);
+        //String rut = Input.nextLine();
+        //CrudPetOwner du = new CrudPetOwner();
+        //String r = du.ReadUno(rut)[0];
+        //boolean e =r;
+        //System.out.println(r == null);
+        //System.out.println(X.ValidaRUT(rut));
         //CrudAsistente cu = new CrudAsistente();
         //System.out.println(Arrays.toString(cu.ReadUno(rut)));
         //PV.MenuAdministrador();

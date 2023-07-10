@@ -51,7 +51,7 @@ public class Conexion {
             
             //System.out.println(rs.toString());
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
     
