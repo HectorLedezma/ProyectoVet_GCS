@@ -29,114 +29,131 @@ public class ProyectoVet {
         System.out.println("===========Veterinaria de Dr. Eutanasia===========");
         System.out.println("==================================================\n");
         while(true){
-            System.out.println("Ingrese su rut:");
-            rut = Input.nextLine();
-            if(X.ValidaRUT(rut)){
-                break;
+            while(true){
+                System.out.println("Ingrese su rut:");
+                rut = Input.nextLine();
+                if(X.ValidaRUT(rut)){
+                    break;
+                }else{
+                    System.out.println("RUT no valido");
+                }
+            }
+            System.out.println("Ingrese su contraseña:");
+            pas = Input.nextLine();
+            pas = X.hashSHA256(pas);
+            user = check.ReadUno(rut);
+            String contra = user[4];
+            if(pas.equals(contra)){
+                int tipo = Integer.parseInt(user[6]);
+                String [] usData;
+                switch(tipo){
+                    case 1 ->{//menu Asistente
+                        CrudAsistente as = new CrudAsistente();
+                        usData = as.ReadUno(rut);
+                        MenuAsistente(new Asistente(Integer.parseInt(usData[8]),usData[9],usData[0],usData[1],usData[2],usData[3],usData[4],usData[5],Integer.parseInt(usData[6]),Integer.parseInt(usData[7])));
+                    }
+                    case 2 ->{//menu Veterinario
+                        //CrudVeterinario vt = new CrudVeterinario();
+                        //usData = vt.ReadUno(rut);
+                        //MenuVeterinario();
+                    }
+                    case 3 ->{
+
+                    }
+                    case 4 ->{
+                        MenuAdministrador();
+                    }
+                }
             }else{
-                System.out.println("RUT no valido");
+                System.out.println("Contraseña incorrecta");
             }
         }
-        System.out.println("Ingrese su contraseña:");
-        pas = Input.nextLine();
-        pas = X.hashSHA256(pas);
-        user = check.ReadUno(rut);
-        String contra = user[4];
-        if(pas.equals(contra)){
-            int tipo = Integer.parseInt(user[6]);
-            String [] usData;
-            switch(tipo){
-                case 1 ->{//menu Asistente
-                    CrudAsistente as = new CrudAsistente();
-                    usData = as.ReadUno(rut);
-                    MenuAsistente(new Asistente(Integer.parseInt(usData[8]),usData[9],usData[0],usData[1],usData[2],usData[3],usData[4],usData[5],Integer.parseInt(usData[6]),Integer.parseInt(usData[7])));
-                }
-                case 2 ->{//menu Veterinario
-                    //CrudVeterinario vt = new CrudVeterinario();
-                    //usData = vt.ReadUno(rut);
-                    //MenuVeterinario();
-                }
-                case 3 ->{
-                    
-                }
-                case 4 ->{
-                    MenuAdministrador();
-                }
-            }
-        }else{
-            System.out.println("Contraseña incorrecta");
-        }
+        
         
     }
     
     public void MenuAsistente(Asistente us){
-        Scanner Input = new Scanner(System.in);
-        CrudMascota cpt = new CrudMascota();
-        CrudPetOwner cpo = new CrudPetOwner();
-        System.out.println("Bienvenido "+us.getNombre());
-        System.out.println("Por favor ingrse una opcion: ");
-        int op2;
-        while(true){
-            System.out.println("1) crear ficha de mascota");
-            System.out.println("2) ver ficha de mascota");
-            int op1 = Input.nextInt();
-            if(op1 > 0 && op1 <=2){
-                op2 = op1;
-                break;
-            }else{
-                System.out.println("Opcion no valida");
-                System.out.println("Por favor ingrse una opcion valida: ");
+        boolean exit = false;
+        while(!exit){
+            Scanner Input = new Scanner(System.in);
+            CrudMascota cpt = new CrudMascota();
+            CrudPetOwner cpo = new CrudPetOwner();
+            System.out.println("Bienvenido "+us.getNombre());
+            System.out.println("Por favor ingrse una opcion: ");
+            int op2;
+            while(true){
+                System.out.println("1) crear ficha de mascota");
+                System.out.println("2) ver ficha de mascota");
+                System.out.println("3) Salir");
+                int op1 = Input.nextInt();
+                if(op1 > 0 && op1 <=3){
+                    op2 = op1;
+                    break;
+                }else{
+                    System.out.println("Opcion no valida");
+                    System.out.println("Por favor ingrse una opcion valida: ");
+                }
             }
-        }
-        switch(op2){
-            case 1->{
-                Varios X = new Varios();
-                boolean op4 = false;
-                while(true){
-                    System.out.println("Nuevo dueño?");
-                    System.out.println("1)SI   //   2)NO");
-                    int op3 = Input.nextInt();
-                    if(op3 > 0 && op3 <=2){
-                        if(op3 == 1){
-                            op4 = true;
+            switch(op2){
+                case 1->{
+                    Varios X = new Varios();
+                    boolean op4 = false;
+                    while(true){
+                        System.out.println("Nuevo dueño?");
+                        System.out.println("1)SI   //   2)NO");
+                        int op3 = Input.nextInt();
+                        if(op3 > 0 && op3 <=2){
+                            if(op3 == 1){
+                                op4 = true;
+                            }
+                            break;
+                        }else{
+                            System.out.println("Opcion no valida");
                         }
-                        break;
-                    }else{
-                        System.out.println("Opcion no valida");
                     }
-                }
-                
-                Mascota pet;
-                
-                String [] DatoDue = new String[5];
-                if(op4){//dueño nuevo
-                    PetOwner PetO = us.IngresaDue();
-                    if(PetO != null){
-                        cpo.Create(PetO);
-                        DatoDue = cpo.ReadUno(PetO.getRut());
-                    }else{
-                        op4 = false;
+
+                    Mascota pet;
+
+                    String [] DatoDue = new String[5];
+                    if(op4){//dueño nuevo
+                        PetOwner PetO = us.IngresaDue();
+                        if(PetO != null){
+                            cpo.Create(PetO);
+                            DatoDue = cpo.ReadUno(PetO.getRut());
+                        }else{
+                            System.out.println("PetNULL");
+                            op4 = false;
+                        }
                     }
-                }
-                if(!op4){//dueño antiguo
-                    System.out.print("Ingrese el Rut del dueño: ");
-                    String drut = Input.nextLine();
-                    //Input.nextLine();
-                    while(!X.ValidaRUT(drut)){
-                        System.out.println("Rut no valido");
-                        System.out.print("Ingrese el Rut del dueño: ");
-                        drut = Input.nextLine();
-                        
+                    if(!op4){//dueño antiguo
+                        String drut;
+                        //Input.nextLine();
+                        while(true){
+                            System.out.print("Ingrese el Rut del dueño: ");
+                            drut = Input.next();
+                            if(X.ValidaRUT(drut)){
+                                break;
+                            }else{
+                                System.out.println("Rut no valido");
+                            }
+                        }
+                        DatoDue = cpo.ReadUno(drut);
                     }
-                    DatoDue = cpo.ReadUno(drut);
+                    System.out.println("Ingese los datos de la mascota.");
+                    pet = us.IngresaPet(DatoDue[0]);
+                    //
+                    System.out.println("Nombre: "+pet.getNombre());
+                    System.out.println("Rut Dueño: "+pet.getRutDueño());
+                    //
+                    cpt.Create(pet);
+                }case 2->{
+
+                }case 3->{
+                    exit = true;
                 }
-                System.out.println("Ingese los datos de la mascota.");
-                pet = us.IngresaPet(DatoDue[0]);
-                cpt.Create(pet);
-            }case 2->{
-                
             }
         }
+        
     }
     
     public void MenuVeterinario(Veterinario us){

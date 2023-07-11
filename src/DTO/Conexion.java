@@ -46,12 +46,13 @@ public class Conexion {
         Statement st;
         
         try {
+            System.out.println("Consulta: "+sql);
             st = con.createStatement();
             st.execute(sql);
             
-            //System.out.println(rs.toString());
+            //System.out.println("Operacion realizada con exito");
         } catch (SQLException e) {
-            //e.printStackTrace();
+            System.out.println("Error");
         }
     }
     

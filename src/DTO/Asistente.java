@@ -20,7 +20,6 @@ public class Asistente extends Usuario{
         Varios x = new Varios();
         System.out.print("RUT del dueño: ");
         String rutd = Input.nextLine();
-        Input.nextLine();
         while(!x.ValidaRUT(rutd)){
             System.out.println("RUT no valido");
             System.out.print("RUT del dueño: ");
