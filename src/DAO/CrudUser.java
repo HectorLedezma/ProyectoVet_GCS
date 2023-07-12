@@ -44,7 +44,8 @@ public class CrudUser {
             
             nu.CloseConexion();
         } catch (SQLException ex) {
-            Logger.getLogger(CrudUser.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CrudUser.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
         
         return Datos;

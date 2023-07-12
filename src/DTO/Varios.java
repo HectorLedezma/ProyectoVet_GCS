@@ -95,45 +95,61 @@ public class Varios {
         return hora;
     }
     
-    public boolean ValidaRUT(String rut){
-        //System.out.println("Rut de entrada: "+rut);
-        boolean ok;
-        String sinSim = rut.replaceAll("[^0-9kK]", "");
-        //System.out.println("Rut de sin simbolos: "+sinSim);
-        String sinDV = sinSim.substring(0, sinSim.length() - 1);
-        //System.out.println("Rut de sin DV: "+sinDV);
-        String TUR = "";
-        for(int i = sinDV.length()-1; i>=0; i--){
-            //System.out.println(sinSim.length()-1);
-            //System.out.println(i);
-            TUR = TUR + sinDV.charAt(i);
-        }
-        //System.out.println("Rut invertido: "+TUR);
-        int multi = 2;
-        int suma = 0;
-        for(int i = 0; i<TUR.length();i++){
-            if(multi > 7){
-                multi = 2;
+    public String FormalRUT(String rut){
+        if(!rut.equals("")){
+            String sinSim = rut.replaceAll("[^0-9kK]", "");
+            String sinDV = sinSim.substring(0, sinSim.length() - 1);
+            String dvu = ""+sinSim.charAt(sinSim.length()-1);
+            if(dvu.equals("k")){
+                dvu = "K";
             }
-            suma = suma + (Integer.parseInt(""+TUR.charAt(i))*multi);
-            multi = multi + 1;
+            rut = sinDV+dvu;
         }
-        int dv = 11-(suma%11);
-        String dvu = ""+sinSim.charAt(sinSim.length()-1);
-        if(dvu.equals("k")){
-            dvu = "K";
+        return rut;
+    }
+    
+    public boolean ValidaRUT(String rut){
+        boolean ok;
+        if(!rut.equals("")){
+            String sinSim = rut.replaceAll("[^0-9kK]", "");
+            //System.out.println("Rut de sin simbolos: "+sinSim);
+            String sinDV = sinSim.substring(0, sinSim.length() - 1);
+            //System.out.println("Rut de sin DV: "+sinDV);
+            String TUR = "";
+            for(int i = sinDV.length()-1; i>=0; i--){
+                //System.out.println(sinSim.length()-1);
+                //System.out.println(i);
+                TUR = TUR + sinDV.charAt(i);
+            }
+            //System.out.println("Rut invertido: "+TUR);
+            int multi = 2;
+            int suma = 0;
+            for(int i = 0; i<TUR.length();i++){
+                if(multi > 7){
+                    multi = 2;
+                }
+                suma = suma + (Integer.parseInt(""+TUR.charAt(i))*multi);
+                multi = multi + 1;
+            }
+            int dv = 11-(suma%11);
+            String dvu = ""+sinSim.charAt(sinSim.length()-1);
+            if(dvu.equals("k")){
+                dvu = "K";
+            }
+            //System.out.println(TUR);
+            String dvr = ""+dv;
+            if(dv==11){
+                dvr = "0";
+            }
+            if(dv==10){
+                dvr = "K";
+            }
+            //System.out.println("dvr: "+dvr);
+            //System.out.println("dvu: "+dvu);
+            ok = dvr.equals(dvu);
+        }else{
+            ok = false;
         }
-        //System.out.println(TUR);
-        String dvr = "";
-        if(dv==11){
-            dvr = "0";
-        }
-        if(dv==10){
-            dvr = "K";
-        }
-        
-        ok = dvr.equals(dvu);
-        
         return ok;
     }
 }

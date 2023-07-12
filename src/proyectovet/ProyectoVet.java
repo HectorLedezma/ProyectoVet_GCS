@@ -12,6 +12,8 @@ import DTO.PetOwner;
 import DTO.Usuario;
 import DTO.Varios;
 import DTO.Veterinario;
+import java.util.ArrayList;
+import java.util.Arrays;
 //import java.sql.Connection;
 //import java.util.Arrays;
 import java.util.Scanner;
@@ -28,9 +30,10 @@ public class ProyectoVet {
         System.out.println("==================================================");
         System.out.println("===========Veterinaria de Dr. Eutanasia===========");
         System.out.println("==================================================\n");
+        System.out.println("=======================Login======================");
         while(true){
             while(true){
-                System.out.println("Ingrese su rut:");
+                System.out.println("Ingrese el rut de usuario:");
                 rut = Input.nextLine();
                 if(X.ValidaRUT(rut)){
                     break;
@@ -75,10 +78,14 @@ public class ProyectoVet {
     public void MenuAsistente(Asistente us){
         boolean exit = false;
         while(!exit){
+            System.out.println("=================================================");
+            System.out.println("=====Menu Asisitente: "+us.getNombre()+"=====");
+            System.out.println("=================================================");
             Scanner Input = new Scanner(System.in);
+            Varios X = new Varios();
             CrudMascota cpt = new CrudMascota();
             CrudPetOwner cpo = new CrudPetOwner();
-            System.out.println("Bienvenido "+us.getNombre());
+            //System.out.println("Bienvenido "+us.getNombre());
             System.out.println("Por favor ingrse una opcion: ");
             int op2;
             while(true){
@@ -96,7 +103,7 @@ public class ProyectoVet {
             }
             switch(op2){
                 case 1->{
-                    Varios X = new Varios();
+                    
                     boolean op4 = false;
                     while(true){
                         System.out.println("Nuevo dueño?");
@@ -121,7 +128,7 @@ public class ProyectoVet {
                             cpo.Create(PetO);
                             DatoDue = cpo.ReadUno(PetO.getRut());
                         }else{
-                            System.out.println("PetNULL");
+                            //System.out.println("PetNULL");
                             op4 = false;
                         }
                     }
@@ -147,7 +154,64 @@ public class ProyectoVet {
                     //
                     cpt.Create(pet);
                 }case 2->{
-
+                    String dueRUT;
+                    while(true){
+                        System.out.println("Ingrese rut del dueño: ");
+                        dueRUT = Input.next();
+                        if(X.ValidaRUT(dueRUT)){
+                            if(cpo.ReadUno(dueRUT)[0] == null){
+                                System.out.println("ese dueño no existe");
+                            }else{
+                                //System.out.println("Dueño "+dueñoData[1]+" "+dueñoData[2]);
+                                break;
+                            }
+                        }else{
+                            System.out.println("RUT no valido");
+                        }
+                    }
+                    ArrayList <String []> tabla=cpt.buscaXDueño(dueRUT);
+                    while(true){
+                        System.out.println("Mascotas de "+cpo.ReadUno(dueRUT)[1]+":");
+                        System.out.println("Seleciona la mascota para ver la ficha: ");
+                        for(int i = 0; i<tabla.size();i++){
+                            System.out.println((i+1)+"- "+tabla.get(i)[2]);
+                        }
+                        int SelPet = Input.nextInt();
+                        if(SelPet>=1&&SelPet<=tabla.size()){
+                            String estado;
+                            String sexo;
+                            if(tabla.get(SelPet-1)[3].equals("1")){
+                                sexo = "Macho";
+                            }else{
+                                sexo = "Hembra";
+                            }
+                            if(tabla.get(SelPet-1)[9].equals("1")){
+                                estado = "Ok";
+                            }else{
+                                estado = "Inactivo";
+                            }
+                            System.out.println("Ficha: N°"+tabla.get(SelPet-1)[0]);
+                            System.out.println("Nombre de la Mascota: "+tabla.get(SelPet-1)[2]);
+                            System.out.println("Codigo Chip: "+tabla.get(SelPet-1)[1]);
+                            System.out.println("Especie: "+tabla.get(SelPet-1)[4]);
+                            System.out.println("Raza: "+tabla.get(SelPet-1)[5]);
+                            System.out.println("Sexo: "+sexo);
+                            System.out.println("Estado de la Mascota: "+estado);
+                            System.out.println("Nombre del dueño: "+tabla.get(SelPet-1)[11]+" "+tabla.get(SelPet-1)[12]);
+                            System.out.println("Rut del dueño: "+tabla.get(SelPet-1)[10]);
+                            System.out.println("1er contacto con el dueño: "+tabla.get(SelPet-1)[13]);
+                            System.out.println("2do contacto con el dueño: "+tabla.get(SelPet-1)[14]);
+                            System.out.println("\n");
+                            break;
+                        }else{
+                            System.out.println("Opcion no valida");
+                        }
+                    }
+                    
+                    
+                    
+                    
+                    
                 }case 3->{
                     exit = true;
                 }
@@ -295,7 +359,7 @@ public class ProyectoVet {
     public static void main(String[] args) {
         ProyectoVet PV = new ProyectoVet();
         PV.Login();
-        //PV.UserManage();
+        //PV.MenuAdministrador();
         //Varios X = new Varios();
         //System.out.println(X.hashSHA256("Contraseña"));
         //Conexion con = new Conexion();

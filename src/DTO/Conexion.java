@@ -46,7 +46,7 @@ public class Conexion {
         Statement st;
         
         try {
-            System.out.println("Consulta: "+sql);
+            //System.out.println("Consulta: "+sql);
             st = con.createStatement();
             st.execute(sql);
             
