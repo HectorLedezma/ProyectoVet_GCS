@@ -52,7 +52,11 @@ public class Conexion {
             
             //System.out.println("Operacion realizada con exito");
         } catch (SQLException e) {
-            System.out.println("Error");
+            String mensaje = e.getMessage();
+            if(e.getMessage().equals("Cannot add or update a child row: a foreign key constraint fails (`proyectovet`.`mascota`, CONSTRAINT `Mascota_ibfk_2` FOREIGN KEY (`RutDueño`) REFERENCES `dueño` (`Rut`) ON DELETE CASCADE ON UPDATE CASCADE)")){
+                mensaje = "El Rut del dueño ingresado no existe";
+            }
+            System.out.println("Error :"+mensaje);
         }
     }
     

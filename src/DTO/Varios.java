@@ -107,10 +107,12 @@ public class Varios {
         }
         return rut;
     }
-    
+    //24568902
+    //12345678
     public boolean ValidaRUT(String rut){
         boolean ok;
-        if(!rut.equals("")){
+        
+        if((rut.length()) >= 8){
             String sinSim = rut.replaceAll("[^0-9kK]", "");
             //System.out.println("Rut de sin simbolos: "+sinSim);
             String sinDV = sinSim.substring(0, sinSim.length() - 1);

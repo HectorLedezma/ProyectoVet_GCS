@@ -105,32 +105,52 @@ public class ProyectoVet {
                 case 1->{
                     
                     boolean op4 = false;
-                    while(true){
-                        System.out.println("Nuevo dueño?");
-                        System.out.println("1)SI   //   2)NO");
-                        int op3 = Input.nextInt();
-                        if(op3 > 0 && op3 <=2){
-                            if(op3 == 1){
-                                op4 = true;
-                            }
-                            break;
-                        }else{
-                            System.out.println("Opcion no valida");
-                        }
-                    }
-
                     Mascota pet;
 
                     String [] DatoDue = new String[5];
-                    if(op4){//dueño nuevo
-                        PetOwner PetO = us.IngresaDue();
-                        if(PetO != null){
-                            cpo.Create(PetO);
-                            DatoDue = cpo.ReadUno(PetO.getRut());
-                        }else{
-                            //System.out.println("PetNULL");
-                            op4 = false;
+                    while(true){
+                        while(true){
+                            System.out.println("Nuevo dueño?");
+                            System.out.println("1)SI   //   2)NO");
+                            String op3 = Input.next();
+                            if(op3.equals("1") || op3.equals("2")){
+                                op4 = op3.equals("1");
+                                break;
+                            }else{
+                                System.out.println("Opcion no valida");
+                            }
                         }
+
+                        
+
+                        if(op4){//dueño nuevo
+                            PetOwner PetO = us.IngresaDue();
+                            if(PetO != null){
+                                cpo.Create(PetO);
+                                DatoDue = cpo.ReadUno(PetO.getRut());
+                            }else{
+                                //el dueño existe 
+                                System.out.println("Intentar otra vez:\n 1->SI\n 2->NO");
+                                String again = Input.next();
+                                //si = ingresar dueño no existente
+                                //no = ingresar dueño existente
+                                if(again.equals("1") && again.equals("2")){
+                                    if(again.equals("2")){
+                                        op4 = false;
+                                        break;
+                                    }else{
+                                        op4 = true;
+                                    }
+                                    //break;
+                                }else{
+                                    System.out.println("Opcion no valida");
+                                }
+                                
+                            }
+                        }else{
+                            break;
+                        }
+                        
                     }
                     if(!op4){//dueño antiguo
                         String drut;
@@ -146,6 +166,7 @@ public class ProyectoVet {
                         }
                         DatoDue = cpo.ReadUno(drut);
                     }
+                    
                     System.out.println("Ingese los datos de la mascota.");
                     pet = us.IngresaPet(DatoDue[0]);
                     //
@@ -202,7 +223,15 @@ public class ProyectoVet {
                             System.out.println("1er contacto con el dueño: "+tabla.get(SelPet-1)[13]);
                             System.out.println("2do contacto con el dueño: "+tabla.get(SelPet-1)[14]);
                             System.out.println("\n");
-                            break;
+                            System.out.println("Continuar:\n 1->SI\n 2->NO");
+                            int cont = Input.nextInt();
+                            if(cont >= 1 && cont <=2){
+                                if(cont == 2){
+                                    break;
+                                }
+                            }else{
+                                System.out.println("Opcion no valida");
+                            }
                         }else{
                             System.out.println("Opcion no valida");
                         }
@@ -231,7 +260,7 @@ public class ProyectoVet {
         System.out.println("1) Ingresar usuario");
         System.out.println("2) Ver un usuario");
         System.out.println("3) Ver todos los usuarios");
-        
+        System.out.println("4) Salir");
         Scanner Input = new Scanner(System.in);
         System.out.print("Ingrese una opcion: ");
         int op = Input.nextInt();
